@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title class="title">Milk Cost Calculator</title>
+    <style>
+    body {
+        background-image: url("lightbg.jpg");
+    background-size: cover; /* This makes the background cover the entire page */
+    background-repeat: no-repeat; /* This prevents the background image from repeating */
+    background-attachment: fixed; /* This makes the background image fixed during scrolling */
+    background-position: center; /* This centers the background image */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+        /* background: linear-gradient(to right, #fbc7d4, #9796f0); */
+        color: #333;
+    }
+
+    h1 {
+        text-align: center;
+        color: #fff;
+    }
+
+    .button {
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .add-more-btn {
+        background-color: #4CAF50;
+    }
+
+    .save-btn {
+        background-color: #21afe3;
+        margin-right: 20px;
+    }
+
+    .modify-cost {
+        background-color: #07f76b;
+        color: #f6f2f2;
+        padding: 6px 10px;
+        font-size: 14px;
+        margin-bottom: 1px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .close-btn-stylish {
+        background-color: #f44336;
+        color: #fff;
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+
+    .close-btn-stylish:hover {
+        background-color: #d32f2f;
+    }
+
+    .add {
+        background-color: #07ba2b;
+        color: #fff;
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+
+    #total {
+        font-size: 37px;
+        border-radius: 15px;
+        width: 100%;
+        height: 55px;
+        font-weight: bold;
+        color: white;
+        margin: 5px auto 10px;
+        background: rgba( 255, 255, 255, 0.3 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4.5px );
+-webkit-backdrop-filter: blur( 4.5px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    label {
+        font-size: 26px;
+        font-weight: bold;
+        display: block;
+        margin: auto 0 10px;
+    }
+
+    input {
+        font-size: 45px;
+        width: calc(100% - 22px);
+        padding: 8px;
+        height: 55px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        box-sizing: border-box;
+        display:block;
+        border: 3px solid currentColor;
+        padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
+        color: currentColor;
+        background: transparent;
+        border-radius: var(--size-radius);
+        transition: all 0.3s ease-in-out;
+    }
+    input:focus {
+  border-color: #5ab9ea; /* Light blue border */
+  background-color: #f0faff; /* Light blue background */
+  outline: none; /* Remove the default outline */
+  box-shadow: 0 0 10px rgba(90, 185, 234, 0.5); /* Soft blue shadow */
+  transform: scale(1.02); /* Slightly increase the size */
+}
+input::placeholder {
+  color: #999;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Placeholder color change on focus */
+input:focus::placeholder {
+  color: #ccc; /* Lighten the placeholder text */
+}
+
+    .footer-section {
+        position:relative;
+         margin-left: 0;
+        margin-right: 0;
+        margin-bottom: -100px;
+        background: #151414;
+        margin-top: 50px; 
+       
+        width: 100%;
+        border-radius: 25px 25px 0 0;
+        
+    }
+
+    .footer-cta {
+        border-bottom: 1px solid #373636;
+    }
+
+    .single-cta i {
+        color: #ff5e14;
+        font-size: 30px;
+        float: left;
+        margin-top: 8px;
+    }
+
+    .cta-text {
+        padding-left: 15px;
+        display: inline-block;
+    }
+
+    .cta-text h4 {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .cta-text span {
+        color: #757575;
+        font-size: 15px;
+    }
+
+    .footer-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-pattern img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 330px;
+        background-size: cover;
+        background-position: 100% 100%;
+    }
+
+    .footer-logo {
+        margin-bottom: 30px;
+    }
+
+    .footer-logo img {
+        max-width: 200px;
+    }
+
+    .footer-text p {
+        margin-bottom: 14px;
+        font-size: 14px;
+        color: #7e7e7e;
+        line-height: 28px;
+    }
+ 
+    #imgg {
+            width: 1.5em;
+            height: 1.5em;
+            vertical-align: middle;
+            margin-right: 0.5em;
+        }
+    .pic{
+        
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           /* align-items: center; */
+           /* place-items: center; */
+           margin-top: 10vh;
+           }
+           .framed{
+            height: 80%;
+            width:80%;
+            align-items: centre;
+            align-content: center;
+            margin-bottom:8vh;
+            margin-right:10%;
+            margin-left: 10%;
+           }
+
+           img.framed {
+  box-shadow:
+    -50px -50px 0 -40px tomato,
+    50px 50px 0 -40px rgb(130, 195, 232);
+}
+.info {
+    font-family: 'Google Sans', sans-serif;
+    background: #8e9eab;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    width:100%;
+    height: 11vh;
+    margin-top:2%;
+    background-color: blanchedalmond;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 50px 0 50px 0;
+    color: #6c757d ;
+}
+  /* Custom styles for the modal */
+  .modal-content {
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-footer {
+            border-top: none;
+        }
+
+        .modal-header {
+    border-bottom: none;
+    position: relative;
+}
+
+.modal-header .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+    #minus{
+    color:#dc3545;
+}
+#month{
+    color: #dc3545;
+}
+
+    .imgg {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: middle;
+        margin-right: 0.5em;
+    }
+
+    .rate-name {
+        font-weight: bold;
+    }
+
+    .label-num {
+        font-weight: bold;
+    }
+
+    .rate-edit {
+        font-weight: bold;
+        color: #0d6efd;
+        padding: 0 2px;
+    }
+
+    body.editing .rate-edit,
+    body.editing .rate-name {
+        border: 1px dashed #007bff;
+        background: #e7f0ff;
+        border-radius: 6px;
+        padding: 2px 6px;
+        cursor: text;
+        outline: none;
+    }
+
+    body.editing .rate-edit:focus,
+    body.editing .rate-name:focus {
+        background: #fff;
+        border-style: solid;
+    }
+
+    .mrp-wrap {
+        display: none;
+        align-items: center;
+        gap: 4px;
+    }
+
+    body.editing .mrp-wrap {
+        display: inline-flex;
+        margin-left: 8px;
+    }
+
+    .mrp-tag {
+        font-size: 13px;
+        font-weight: bold;
+        color: #7b1fa2;
+    }
+
+    .rate-edit.mrp {
+        color: #7b1fa2;
+    }
+
+    .row-del {
+        display: none;
+        margin-left: 10px;
+        background: #fbe9e7;
+        border: 1px solid #e0b4ad;
+        color: #d84315;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        font-size: 13px;
+        line-height: 1;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    body.editing .row-del {
+        display: inline-block;
+    }
+
+    .edit-banner {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffc107;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .edit-banner button {
+        margin-left: 8px;
+        background: none;
+        border: none;
+        color: #d84315;
+        font-weight: 700;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .overlay.show {
+        display: flex;
+    }
+
+    .popup {
+        background: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        max-width: 380px;
+        width: 92%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .popup h3 {
+        margin: 0 0 12px;
+        font-size: 20px;
+    }
+
+    .popup input[type="text"] {
+        width: 100%;
+        font-size: 18px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin-bottom: 14px;
+        display: block;
+    }
+
+    .icon-picker {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+
+    .icon-picker img {
+        width: 44px;
+        height: 44px;
+        padding: 6px;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #f0faff;
+    }
+
+    .icon-picker img.selected {
+        border-color: #0d6efd;
+        background: #cfe6ff;
+    }
+
+    .popup-btns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .popup-btns button {
+        flex: 1;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .popup-btns .btn-ok {
+        background: #07ba2b;
+        color: #fff;
+    }
+
+    .popup-btns .btn-cancel {
+        background: #eee;
+        color: #555;
+    }
+
+
+
+
+</style>
+</head>
+<body>
+    <h1>Milk Cost Calculator</h1>
+    <div id="total" style = "color : #6c757d; margin:30px 0px 30px 0px">Total : ₹0.00 
+
+
+    </div> 
+
+    <div style="display:flex; gap:10px; margin-bottom:30px;">
+        <button id="editBtn" class="btn btn-warning" style="flex:1; padding:14px; font-size:18px; font-weight:700;">✏️ Edit Rates</button>
+        <button id="addMoreBtn" class="btn btn-info" style="flex:1; padding:14px; font-size:16px; font-weight:700;">+ Add</button>
+        <button id="shareBtn" class="btn btn-light" style="flex:1; padding:14px; font-size:16px; font-weight:700;"> Share</button>
+    </div>
+
+    <div id="editBanner" class="edit-banner" hidden>
+        ✏️ Editing mode ON — name, rate aur MRP directly edit karo (click karke). Changes "Done Editing" par save honge.
+        <button id="resetDefaultsBtn">Reset defaults</button>
+    </div>
+
+    <!-- <div id = "total" style="font-size: 20px; margin-top: 2%; height:5%;">
+    <h1 style="font-size: 18px; padding-top: 1%; padding-bottom: 0;" >Daily Loss : <span id="minus"></span></h2>
+        <h1 style="font-size: 18px; padding-top : -5px" >Monthly loss : <span id="month" ></span></h2>
+        </div> -->
+
+
+   <!-- <button type="button" id="saveButton" onclick="saveData()" class="save-btn" style="float: right;">Save</button>
+     Add the Show Previous Statements button
+    <button type="button" id="showStatements" onclick="showPreviousStatements()">Show Previous Statements</button>
+
+     Display area for previous statements 
+    <div id="previousStatements"></div>-->
+
+        
+    
+
+    <form id="milkForm"></form>
+    
+    
+    <!-- <button type="button" class="add-more-btn" onclick="openAddMoreModal()">Add More</button> -->
+
+    <!-- ... Existing code ... -->  
+    <!-- <div class="info" >
+    <h1 style=" color:  #212529; font-size: 24px " id="total2" > Total according to actual rates : </h1> -->
+    <!-- <h1 style="font-size: 24px; color:  #212529;" >Daily Loss : <span id="minus" ></span></h2>
+    <h1 style="font-size: 24px; color:  #212529;" >Monthly loss : <span id="month" ></span></h2> -->
+    </div>
+     <!-- <h1 style="margin-top: 4%;"> Acutal Rates :</h1>
+    <div class="pic">    
+        
+        <img class="framed" src="milkrates2.jpg" alt="image">  
+        <img class="framed" src="milkrates.jpg" alt="image">    -->
+
+<!--     
+    </div>
+   <h1 style="font-size:20px" >Source : Amul.com  </h1> -->
+
+
+   <div id="addOverlay" class="overlay">
+        <div class="popup">
+            <h3>Add Product</h3>
+            <input type="text" id="newName" placeholder="Product name (e.g. Ghee)">
+            <div class="icon-picker" id="iconPicker"></div>
+            <div class="popup-btns">
+                <button id="addCancel" class="btn-cancel">Cancel</button>
+                <button id="addOk" class="btn-ok">Add</button>
+            </div>
+        </div>
+    </div>
+
+   
+  
+
+
+    
+
+
+    <footer class="footer-section" >
+        <div class="container">
+            <div class="footer-cta pt-5 pb-5">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="cta-text">
+                                <h4>Find us</h4>
+                                <span>sector 104 , Gurgugram</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-phone"></i>
+                            <div class="cta-text">
+                                <h4>Call us</h4>
+                                <span>80765**883</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="far fa-envelope-open"></i>
+                            <div class="cta-text">
+                                <h4>Mail us</h4>
+                                <span>meet14370@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+    </footer>
+    
+    <script>
+        const STORE_KEY = 'milkProducts';
+        const ICONS = {
+            cow: 'cow-svgrepo-com.svg',
+            buffalo: 'water-buffalo-svgrepo-com.svg',
+            yogurt: 'yogurt-svgrepo-com.svg',
+            lassi: 'lassi.png',
+            bread: 'bread-svgrepo-com.svg',
+            cheese: 'cheese-wedge-svgrepo-com.svg'
+        };
+
+        const DEFAULT_PRODUCTS = [
+            { key: 'fullCream', name: 'Full Cream', label: '68', rate: '66.7', actual: '65.88', icon: 'cow' },
+            { key: 'toned', name: 'Toned Milk', label: '56', rate: '54.7', actual: '53.99', icon: 'cow' },
+            { key: 'buffalo', name: 'Buffalo Milk', label: '73', rate: '71', actual: '70.05', icon: 'buffalo' },
+            { key: 'doubleToned', name: 'Double Toned', label: '50', rate: '48.7', actual: '48.10', icon: 'cow' },
+            { key: 'CowMilk', name: 'Cow Milk', label: '58', rate: '56.7', actual: '55.46', icon: 'cow' },
+            { key: 'tenWala', name: '10 Wala Milk', label: '10', rate: '9', actual: '8.5', icon: 'cow' },
+            { key: 'twelveWala', name: '12 Wala Milk', label: '12', rate: '11', actual: '10.5', icon: 'cow' },
+            { key: 'badiDahi', name: 'Badi Dahi', label: '35', rate: '33', actual: '31.89', icon: 'yogurt' },
+            { key: 'chotiDahi', name: 'Choti Dahi', label: '19', rate: '18', actual: '17.29', icon: 'yogurt' },
+            { key: 'Dahicup', name: 'Dahi Cup Chota', label: '23', rate: '22', actual: '20.59', icon: 'yogurt' },
+            { key: 'Dahicupbda', name: 'Dahi Cup Bda', label: '45', rate: '43', actual: '40.28', icon: 'yogurt' },
+            { key: 'badiLassi', name: 'Badi Lassi 1kg', label: '30', rate: '29', actual: '28', icon: 'lassi' },
+            { key: 'chotilassi', name: 'Choti Lassi 1kg', label: '20', rate: '19', actual: '18.5', icon: 'lassi' },
+            { key: 'bread20Wala', name: 'Bread 20 Wala', label: '20', rate: '18', actual: '18', icon: 'bread' },
+            { key: 'bread45Wala', name: 'Bread 45 Wala', label: '45', rate: '40', actual: '40', icon: 'bread' },
+            { key: 'paneer', name: 'Paneer', label: '91', rate: '78', actual: '77', icon: 'cheese' },
+            { key: 'empty1', name: 'Bread 35 Wala', label: '35', rate: '30', actual: '30', icon: 'bread' },
+            { key: 'empty2', name: 'Bread 50 Wala', label: '50', rate: '45', actual: '45', icon: 'bread' }
+        ];
+
+        let products = [];
+        let qtys = {};
+        let editing = false;
+        let snapshot = null;
+        let counter = 0;
+        let selectedIcon = 'cow';
+
+        const milkForm = document.getElementById('milkForm');
+        const totalDisplay = document.getElementById('total');
+        const total2Display = document.getElementById('total2');
+        const minusDisplay = document.getElementById('minus');
+        const monthDisplay = document.getElementById('month');
+        const editBtn = document.getElementById('editBtn');
+        const editBanner = document.getElementById('editBanner');
+        const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+        const addMoreBtn = document.getElementById('addMoreBtn');
+        const addOverlay = document.getElementById('addOverlay');
+        const newName = document.getElementById('newName');
+        const iconPicker = document.getElementById('iconPicker');
+        const addOk = document.getElementById('addOk');
+        const addCancel = document.getElementById('addCancel');
+
+        function uid() { return 'p' + (++counter) + '-' + Date.now().toString(36); }
+        function esc(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function loadProducts() {
+            try {
+                const raw = localStorage.getItem(STORE_KEY);
+                if (raw) {
+                    const saved = JSON.parse(raw);
+                    if (Array.isArray(saved) && saved.length > 0) {
+                        return saved.map(p => ({
+                            key: p.key || p.id || uid(),
+                            name: p.name || 'New Product',
+                            rate: (p.rate !== undefined && p.rate !== null) ? p.rate : '0',
+                            actual: (p.actual !== undefined && p.actual !== null) ? p.actual : '0',
+                            icon: p.icon || 'cow'
+                        }));
+                    }
+                }
+            } catch (e) { /* fall back to defaults */ }
+            return DEFAULT_PRODUCTS.map(p => ({ ...p }));
+        }
+
+        function saveProducts() {
+            try { localStorage.setItem(STORE_KEY, JSON.stringify(products)); }
+            catch (e) { console.error('save failed', e); }
+        }
+
+        function productByKey(key) { return products.find(p => p.key === key); }
+
+        function render() {
+            milkForm.innerHTML = products.map(p => `
+                <label for="${p.key}">
+                    <img class="imgg" src="${ICONS[p.icon] || ICONS.cow}" alt="">
+                    <span class="rate-name" data-key="${p.key}">${esc(p.name)}</span>
+                    (₹<span class="rate-edit" data-key="${p.key}" data-field="cost2" title="MRP rate edit karo">${p.actual}</span> =>
+                    <span class="rate-edit" data-key="${p.key}" data-field="cost" title="Billing rate edit karo">${p.rate}</span>)
+                    <button type="button" class="row-del" data-key="${p.key}" title="Delete">✕</button>
+                </label>
+                <input type="number" id="${p.key}" class="milkInput" data-cost="${p.rate}" data-cost2="${p.actual}" data-key="${p.key}" value="${qtys[p.key] !== undefined ? qtys[p.key] : ''}">
+            `).join('');
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            let total2 = 0;
+            milkForm.querySelectorAll('.milkInput').forEach(input => {
+                const quantity = input.value ? parseFloat(input.value) : 0;
+                const cost = parseFloat(input.dataset.cost || 0);
+                const cost2 = parseFloat(input.dataset.cost2 || 0);
+                total += quantity * cost;
+                total2 += quantity * cost2;
+            });
+
+            totalDisplay.textContent = `Total: ₹${total.toFixed(2)}`;
+            total2Display.textContent = `Total according to actual rates: ₹${total2.toFixed(2)}`;
+            const loss = total - total2;
+            minusDisplay.textContent = `₹${loss.toFixed(2)}`;
+            minusDisplay.style.color = loss > 0 ? '#dc3545' : '#198754';
+            monthDisplay.textContent = `₹${(loss * 30).toFixed(2)}`;
+            monthDisplay.style.color = loss > 0 ? '#dc3545' : '#198754';
+        }
+
+        milkForm.addEventListener('input', (e) => {
+            const inp = e.target.closest('.milkInput');
+            if (!inp) return;
+            qtys[inp.dataset.key] = inp.value;
+            updateTotal();
+        });
+
+        milkForm.addEventListener('focusout', (e) => {
+            const el = e.target;
+            if (!el.isContentEditable) return;
+            const key = el.dataset.key;
+            const p = productByKey(key);
+            if (!p) return;
+            if (el.classList.contains('rate-edit')) {
+                const val = parseFloat(el.textContent);
+                const field = el.dataset.field;
+                if (isNaN(val)) { el.textContent = p[field]; return; }
+                p[field] = val;
+                const input = document.getElementById(key);
+                if (input) input.dataset[field] = val;
+                updateTotal();
+            } else if (el.classList.contains('rate-name')) {
+                const name = el.textContent.trim();
+                if (name) p.name = name;
+                else el.textContent = p.name;
+            }
+        });
+
+        milkForm.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.isContentEditable) {
+                e.preventDefault();
+                e.target.blur();
+            }
+        });
+
+        milkForm.addEventListener('click', (e) => {
+            const del = e.target.closest('.row-del');
+            if (!del) return;
+            if (!confirm('Yeh product delete karna hai?')) return;
+            products = products.filter(p => p.key !== del.dataset.key);
+            render();
+        });
+
+        function enterEditing() {
+            snapshot = JSON.parse(JSON.stringify(products));
+            editing = true;
+            document.body.classList.add('editing');
+            editBanner.hidden = false;
+            editBtn.textContent = '✓ Done Editing';
+            editBtn.classList.remove('btn-warning');
+            editBtn.classList.add('btn-success');
+            milkForm.querySelectorAll('.rate-edit, .rate-name').forEach(el => el.setAttribute('contenteditable', 'true'));
+        }
+
+        function exitEditing() {
+            editing = false;
+            document.body.classList.remove('editing');
+            editBanner.hidden = true;
+            editBtn.textContent = '✏️ Edit Rates';
+            editBtn.classList.add('btn-warning');
+            editBtn.classList.remove('btn-success');
+            render();
+        }
+
+        editBtn.addEventListener('click', () => {
+            if (!editing) { enterEditing(); return; }
+            const changed = JSON.stringify(products) !== JSON.stringify(snapshot);
+            if (changed && !confirm('Changes detected. Save karein?\n\nOK = Save changes\nCancel = wapas purana rates')) {
+                products = snapshot;
+            } else if (changed) {
+                saveProducts();
+            }
+            exitEditing();
+        });
+
+        resetDefaultsBtn.addEventListener('click', () => {
+            if (!confirm('Sab products aur rates default par reset karein?')) return;
+            products = DEFAULT_PRODUCTS.map(p => ({ ...p }));
+            snapshot = JSON.parse(JSON.stringify(products));
+            render();
+        });
+
+        function buildIconPicker() {
+            iconPicker.innerHTML = Object.keys(ICONS).map(key =>
+                `<img src="${ICONS[key]}" data-icon="${key}" class="${key === selectedIcon ? 'selected' : ''}" title="${key}">`
+            ).join('');
+        }
+        iconPicker.addEventListener('click', (e) => {
+            const img = e.target.closest('img');
+            if (!img) return;
+            selectedIcon = img.dataset.icon;
+            iconPicker.querySelectorAll('img').forEach(i => i.classList.remove('selected'));
+            img.classList.add('selected');
+        });
+
+        addMoreBtn.addEventListener('click', () => {
+            newName.value = '';
+            selectedIcon = 'cow';
+            buildIconPicker();
+            addOverlay.classList.add('show');
+            newName.focus();
+        });
+        addCancel.addEventListener('click', () => addOverlay.classList.remove('show'));
+        addOverlay.addEventListener('click', (e) => { if (e.target === addOverlay) addOverlay.classList.remove('show'); });
+        newName.addEventListener('keydown', (e) => { if (e.key === 'Enter') addOk.click(); });
+        addOk.addEventListener('click', () => {
+            const name = newName.value.trim();
+            if (!name) { newName.focus(); return; }
+            products.push({ key: uid(), name, rate: '0', actual: '0', icon: selectedIcon });
+            if (!editing) saveProducts();
+            render();
+            addOverlay.classList.remove('show');
+            milkForm.querySelector('input:last-child').focus();
+        });
+
+        const shareBtn = document.getElementById('shareBtn');
+
+        function buildSummary() {
+            const lines = [];
+            let total = 0;
+            milkForm.querySelectorAll('.milkInput').forEach(input => {
+                const qty = input.value ? parseFloat(input.value) : 0;
+                if (qty <= 0) return;
+                const p = productByKey(input.dataset.key);
+                if (!p) return;
+                const cost = parseFloat(input.dataset.cost || 0);
+                const amount = qty * cost;
+                total += amount;
+                lines.push(`${p.name} : ${qty} = ₹${amount.toFixed(2)}`);
+            });
+            if (lines.length === 0) return null;
+            lines.push(`\nTotal     = ₹${total.toFixed(2)}`);
+            return lines.join('\n');
+        }
+
+        shareBtn.addEventListener('click', () => {
+            const text = buildSummary();
+            if (!text) { alert('Kuch quantity daalo pehle!'); return; }
+            const msg = `📋 *Milk Order Summary*\n\n${text}`;
+            window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+        });
+
+        products = loadProducts();
+        render();
+    </script>
+    
+</body>
+</html>
